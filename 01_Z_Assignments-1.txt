@@ -29,6 +29,7 @@ Create a simple inventory in /home/ansible/inventory consisting of only the work
 
 
 ========================================================================================================================================================================
+Linux machine
 #On control machine
 sudo yum update -y
 yum install git python python-devel python-pip openssl ansible -y
@@ -45,8 +46,8 @@ sever2  ansible_host_ssh= 3.22.1.122
 
 or
 [myservers]
-72.55.0.112
-3.22.1.122
+server 172.55.0.112
+server2 3.22.1.122
 
 # generate key 
 cd .ssh
@@ -84,3 +85,17 @@ server1 | SUCCESS => {
       yum:
         name: git
         state: present
+====================================================================================================================================================================
+on ubuntu
+sudo apt-get update
+
+Run below commands on manager
+
+sudo apt install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt update
+sudo apt install ansible
+
+On host machine
+
+sudo apt-get install python

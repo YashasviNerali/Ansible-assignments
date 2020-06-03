@@ -20,3 +20,39 @@ Important Notes:
 You might have to create user "ansible" on all servers.
 The ansible user has the same password as the cloud_user.
 /etc/hosts entries must be present on control1 for the managed nodes.
+========================================================================================================================================================================
+
+Solution
+
+#steps to add new user and give sudo access
+
+sudo adduser ansible   
+#then give password and leave all fields blank
+sudo usermod -aG sudo ansible
+su - ansible
+
+#Add ansible user in sudoers file so that it won't askfor password
+sudo visudo
+ansible     ALL=(ALL) NOPASSWD:ALL
+
+#add inventory file in /home/ansible
+vi inventory
+and add then add ip address for node 1 
+
+[node1]
+s1 ansible_ssh_host=3.21.154.8
+
+#run command to check connectivity
+ubuntu@ip-172-31-26-177:~$ ansible all -i /home/ansible/inventory -m ping
+[DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host s1 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible
+release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+s1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+
